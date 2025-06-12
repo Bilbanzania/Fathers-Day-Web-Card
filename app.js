@@ -1,7 +1,6 @@
-// ✨ Wait for the DOM to be ready ✨
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ✨ Element Cache & Setup ✨
+    // Element Cache & Setup ✨
     const bgm = document.querySelector('#bgm');
     bgm.volume = 0.2;
     const tapOverlay = document.querySelector('#tapOverlay');
@@ -14,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const heartLayer = document.querySelector('#heartLayer');
     const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
 
-    //  Father's Day Compliments
+    // Father's Day Compliments
     const compliments = [
         "You're my hero!", "Best dad ever! 🏆", "Strong, wise, and kind 💙",
         "No one compares!", "My guiding star ⭐", "So cool and amazing! 😎", "Very demure, very polite"
@@ -50,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    //  Main Animation Kickoff 
+    //  Main Animation Kickoff
     const startCardAnimations = () => {
         character.classList.add('enter');
         character.addEventListener('animationend', (e) => {
@@ -72,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     trailCount++;
                 }, 60);
 
-                // Add bounce effect via CSS
                 character.style.animation += ', bounce 0.25s ease-in-out';
 
                 message.classList.add('show');
@@ -139,9 +137,21 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.append(ripple);
             setTimeout(() => ripple.remove(), 700);
         });
+
+        // Listen for clicks on the floating compliments ✨
+        petalLayer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('compliment')) {
+                const clickedCompliment = e.target;
+                clickedCompliment.classList.add('fade-out');
+                clickedCompliment.addEventListener('transitionend', () => {
+                    clickedCompliment.remove();
+                }, { once: true });
+            }
+        });
+
     };
 
-    // 🎬 Initial Interaction Logic 🎬
+    // Initial Interaction Logic 🎬
     const initiateExperience = () => {
         bgm.play().catch(err => console.warn("Audio play failed, user interaction needed.", err));
         tapOverlay.classList.add('fade-out');
