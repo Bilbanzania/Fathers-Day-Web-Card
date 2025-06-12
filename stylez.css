@@ -1,0 +1,737 @@
+/* 🌌 Base Layout & Structure */
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(120deg, #2c3e50, #4c5c96, #8e44ad, #2c3e50);
+    background-size: 800% 800%;
+    animation: bgShift 40s ease infinite;
+    font-family: 'Dancing Script', cursive;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    position: relative;
+}
+
+/* ✨ Subtle Vignette for Depth ✨ */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 0 80px rgba(44, 62, 80, 0.4),
+        inset 0 0 120px rgba(30, 40, 50, 0.3);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 🌈 Background Gradient Animation */
+@keyframes bgShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    25% {
+        background-position: 50% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    75% {
+        background-position: 50% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+#tapOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(44, 62, 80, 0.95);
+    z-index: 999;
+    display: flex;
+    opacity: 1;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #a29bfe;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+}
+
+/* ✨ Pulsing "Tap to Begin" Text ✨ */
+#tapOverlay p {
+    animation: pulseTapText 2.5s infinite ease-in-out;
+}
+
+@keyframes pulseTapText {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.03);
+        opacity: 0.8;
+    }
+}
+
+#tapOverlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ✨ Text & Message */
+#message {
+    margin-top: 20px;
+    font-size: 2.5rem;
+    color: #d1d8e0;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    z-index: 12;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.7),
+        0 0 16px #74b9ff,
+        0 0 24px #a29bfe,
+        0 0 32px #8e44ad;
+    animation: rainbowGlow 4s linear infinite;
+}
+
+#message.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+@keyframes rainbowGlow {
+    0% {
+        text-shadow: 0 0 8px #74b9ff, 0 0 12px #fff, 0 0 16px #74b9ff, 0 0 24px #a29bfe, 0 0 32px #8e44ad;
+    }
+
+    50% {
+        text-shadow: 0 0 8px #a29bfe, 0 0 12px #fff, 0 0 16px #a29bfe, 0 0 24px #8e44ad, 0 0 32px #74b9ff;
+    }
+
+    100% {
+        text-shadow: 0 0 8px #74b9ff, 0 0 12px #fff, 0 0 16px #74b9ff, 0 0 24px #a29bfe, 0 0 32px #8e44ad;
+    }
+}
+
+/* 🖼️ Character Image */
+@keyframes floatCharacter {
+    0%, 100% {
+        transform: translateY(0px) translateX(0%);
+    }
+
+    50% {
+        transform: translateY(-10px) translateX(0%);
+    }
+}
+
+@keyframes slideInCharacter {
+    from {
+        transform: translateX(-100%) translateY(0px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0%) translateY(0px);
+        opacity: 1;
+    }
+}
+
+#character {
+    position: relative;
+    max-height: 80vh;
+    width: auto;
+    max-width: 90vw;
+    height: auto;
+    z-index: 3;
+    border-radius: 2rem;
+    box-shadow:
+        0 8px 16px rgba(0, 0, 0, 0.25),
+        0 0 20px rgba(162, 155, 254, 0.4),
+        0 0 40px rgba(116, 185, 255, 0.35),
+        0 0 60px rgba(142, 68, 173, 0.3);
+    opacity: 0;
+    transform: translateX(-100%) translateY(0px);
+    transition: box-shadow 0.4s ease-in-out;
+}
+
+#character.enter {
+    animation: slideInCharacter 1s ease-out forwards,
+        floatCharacter 6s ease-in-out 1s infinite;
+}
+
+/* ✨ Character Hover Effect ✨ */
+@media (hover: hover) and (pointer: fine) {
+    #character:hover {
+        box-shadow:
+            0 10px 22px rgba(0, 0, 0, 0.3),
+            0 0 30px rgba(162, 155, 254, 0.7),
+            0 0 55px rgba(116, 185, 255, 0.55),
+            0 0 80px rgba(142, 68, 173, 0.5);
+    }
+}
+
+/* 💙 Animated Hearts */
+.heart-container {
+    position: absolute;
+    animation: floatUp 3s ease-out forwards;
+    z-index: 11;
+    will-change: transform, opacity;
+    pointer-events: none;
+}
+
+.heart {
+    position: relative;
+    background-color: #a29bfe;
+    /* Default, JS overrides */
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    opacity: 0.9;
+    filter: drop-shadow(0 0 5px #74b9ff);
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    background-color: inherit;
+    border-radius: 50%;
+    width: inherit;
+    height: inherit;
+}
+
+.heart::before {
+    top: -50%;
+    left: 0;
+}
+
+.heart::after {
+    top: 0;
+    left: -50%;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-200px);
+    }
+}
+
+/* ☁️ Parallax Clouds */
+#cloudLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+}
+
+.cloud {
+    position: absolute;
+    opacity: 0.95;
+    z-index: 2;
+    filter: blur(0.6px) brightness(1.4);
+    will-change: transform, left, filter, opacity;
+    left: -200px;
+    pointer-events: none;
+}
+
+.cloud.fluffy::before,
+.cloud.fluffy::after {
+    background: radial-gradient(circle at center, #ffffff 0%, #dfe6e9 65%, transparent 80%);
+    box-shadow: 0 0 40px rgba(223, 230, 233, 0.75);
+}
+
+/* All clouds share these animations */
+.cloud.small.fluffy, .cloud.medium.fluffy, .cloud.large.fluffy {
+    animation:
+        floatCloud 6s ease-in-out infinite,
+        fluffyOpacityPulse 4s ease-in-out infinite;
+}
+
+.cloud.small {
+    animation-name: driftSmall;
+    animation-duration: 60s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.cloud.medium {
+    animation-name: driftMedium;
+    animation-duration: 90s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.cloud.large {
+    animation-name: driftLarge;
+    animation-duration: 120s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.cloud::before, .cloud::after {
+    content: "";
+    position: absolute;
+    background: radial-gradient(circle at center, #ffffff 0%, #dfe6e9 70%, transparent 80%);
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(223, 230, 233, 0.6);
+}
+
+/* Cloud Animations */
+@keyframes floatCloud {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes fluffyOpacityPulse {
+    0%, 100% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 1.0;
+    }
+}
+
+.cloud.small {
+    width: 100px;
+    height: 60px;
+}
+
+.cloud.small::before {
+    width: 70px;
+    height: 70px;
+    top: -15px;
+    left: 30px;
+}
+
+.cloud.small::after {
+    width: 50px;
+    height: 50px;
+    top: -5px;
+    left: 70px;
+}
+
+.cloud.medium {
+    width: 160px;
+    height: 90px;
+}
+
+.cloud.medium::before {
+    width: 100px;
+    height: 100px;
+    top: -20px;
+    left: 40px;
+}
+
+.cloud.medium::after {
+    width: 70px;
+    height: 70px;
+    top: -10px;
+    left: 100px;
+}
+
+.cloud.large {
+    width: 220px;
+    height: 120px;
+}
+
+.cloud.large::before {
+    width: 130px;
+    height: 130px;
+    top: -30px;
+    left: 50px;
+}
+
+.cloud.large::after {
+    width: 90px;
+    height: 90px;
+    top: -20px;
+    left: 130px;
+}
+
+@keyframes driftSmall {
+    from {
+        left: -150px;
+    }
+
+    to {
+        left: 110%;
+    }
+}
+
+@keyframes driftMedium {
+    from {
+        left: -200px;
+    }
+
+    to {
+        left: 110%;
+    }
+}
+
+@keyframes driftLarge {
+    from {
+        left: -250px;
+    }
+
+    to {
+        left: 110%;
+    }
+}
+
+/* ✨ Falling Elements & Gusts */
+.petal, .wind-petal {
+    position: absolute;
+    background: #a29bfe;
+    /* New color */
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(45deg);
+    filter: drop-shadow(0 0 5px rgba(116, 185, 255, 0.7));
+}
+
+.petal {
+    width: 20px;
+    height: 20px;
+    animation: fall 6s linear infinite;
+    z-index: 4;
+    will-change: transform, opacity;
+}
+
+@keyframes fall {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+
+    25% {
+        transform: translate(-10px, 150px) rotate(90deg);
+    }
+
+    50% {
+        transform: translate(10px, 300px) rotate(180deg);
+    }
+
+    75% {
+        transform: translate(-5px, 450px) rotate(270deg);
+    }
+
+    100% {
+        transform: translate(0, 600px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.wind-petal {
+    width: 18px;
+    height: 18px;
+    animation: gust 12s ease-in-out infinite;
+    filter: drop-shadow(0 0 5px rgba(116, 185, 255, 0.5));
+}
+
+@keyframes gust {
+    0% {
+        transform: translateX(0) translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateX(100vw) translateY(-100px) rotate(360deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateX(110vw) translateY(-200px) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* 🏮 Floating Lanterns (kept as they fit the magical theme) */
+.lantern {
+    position: absolute;
+    width: 40px;
+    height: 60px;
+    background: linear-gradient(to top, #6c5ce7, #a29bfe);
+    border-radius: 10px;
+    box-shadow: 0 0 20px #a29bfe;
+    animation: floatLantern 10s linear infinite;
+    z-index: 4;
+}
+
+@keyframes floatLantern {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-500px) rotate(20deg);
+        opacity: 0;
+    }
+}
+
+/* 💬 Compliments */
+.compliment {
+    position: absolute;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow:
+        0px 0px 1px rgba(30, 40, 50, 0.5),
+        0px 0px 3px rgba(30, 40, 50, 0.4),
+        0 0 8px #8e44ad,
+        0 0 15px #a29bfe,
+        0 0 25px #74b9ff;
+    opacity: 0;
+    animation: floatCompliment 10s ease-out forwards;
+    z-index: 4;
+    pointer-events: none;
+}
+
+@keyframes floatCompliment {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        transform: translateY(-150px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-170px);
+        opacity: 0;
+    }
+}
+
+/* ✨ Cursor Sparkles */
+.sparkle {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: #dfe6e9;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 1;
+    animation: sparkleFade 0.6s forwards;
+    z-index: 999;
+    box-shadow:
+        0 0 4px #a29bfe,
+        0 0 6px #74b9ff,
+        0 0 8px #a29bfe,
+        0 0 10px #74b9ff;
+    will-change: transform, opacity, box-shadow;
+}
+
+@keyframes sparkleFade {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 4px #a29bfe, 0 0 6px #74b9ff, 0 0 8px #a29bfe, 0 0 10px #74b9ff;
+    }
+
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+        box-shadow: 0 0 6px rgba(162, 155, 254, 0.5), 0 0 8px rgba(116, 185, 255, 0.4), 0 0 10px rgba(162, 155, 254, 0.3), 0 0 12px rgba(116, 185, 255, 0.2);
+    }
+}
+
+/* 🌫️ Magic Dust Trail */
+.dust {
+    position: absolute;
+    background: radial-gradient(circle, rgba(223, 230, 233, 0.6) 0%, rgba(162, 155, 254, 0.4) 60%, transparent 100%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    opacity: 0.8;
+    z-index: 4;
+    animation: dustTrail 0.8s ease-out forwards;
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+@keyframes dustTrail {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 0.4;
+    }
+
+    100% {
+        transform: scale(2.2);
+        opacity: 0;
+    }
+}
+
+/* 💧 Click Ripple Effect */
+.ripple {
+    position: fixed;
+    border-radius: 50%;
+    background: rgba(116, 185, 255, 0.4);
+    transform: scale(0);
+    animation: rippleEffect 0.7s ease-out forwards;
+    pointer-events: none;
+    z-index: 998;
+    width: 50px;
+    height: 50px;
+}
+
+@keyframes rippleEffect {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+/* 📱 Responsive Adjustments */
+@media (max-width: 768px) {
+    body {
+        justify-content: flex-start;
+        padding-top: 2rem;
+        overflow-x: hidden;
+        touch-action: manipulation;
+    }
+
+    #tapOverlay {
+        font-size: 1.6rem;
+        padding: 1.2rem 1.5rem;
+    }
+
+    #tapOverlay p {
+        animation-name: pulseTapText;
+    }
+
+    #message {
+        font-size: clamp(1.6rem, 6vw, 2rem);
+        text-align: center;
+        padding: 0 1.2rem;
+    }
+
+    #character {
+        width: 90vw;
+        max-height: 65vh;
+        margin-bottom: 1rem;
+    }
+
+    #character:hover {
+        /* Revert hover on touch devices */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25), 0 0 20px rgba(162, 155, 254, 0.4), 0 0 40px rgba(116, 185, 255, 0.35), 0 0 60px rgba(142, 68, 173, 0.3);
+    }
+
+    .compliment {
+        bottom: 10vh;
+        font-size: 1.2rem;
+        padding: 0 1rem;
+        text-align: center;
+    }
+
+    .sparkle {
+        width: 10px;
+        height: 10px;
+    }
+
+    .cloud, .petal, .lantern, .wind-petal, .heart-container {
+        animation-timing-function: ease-in-out;
+    }
+
+    #cloudLayer, #petalLayer, #heartLayer, #dustLayer, #sparkleLayer {
+        overflow: hidden;
+        overscroll-behavior: contain;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 1rem;
+    }
+
+    #tapOverlay {
+        font-size: 1.4rem;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    #message {
+        font-size: clamp(1.4rem, 5.5vw, 1.6rem);
+        padding: 0 0.8rem;
+    }
+
+    #character {
+        width: 95vw;
+        max-height: 60vh;
+    }
+
+    .compliment {
+        font-size: 1rem;
+        bottom: 8vh;
+        padding: 0 0.5rem;
+    }
+
+    .sparkle {
+        width: 8px;
+        height: 8px;
+    }
+
+    .heart {
+        width: 14px;
+        height: 14px;
+    }
+
+    .lantern {
+        width: 28px;
+        height: 40px;
+    }
+
+    .petal, .wind-petal {
+        transform: scale(0.8) rotate(45deg);
+    }
+}
