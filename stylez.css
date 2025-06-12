@@ -1,8 +1,24 @@
-/* 🌌 Base Layout & Structure */
+/* 🎨 Color Palette & Root Variables 🎨 */
+:root {
+    --color-dark-bg: #2c3e50;
+    --color-mid-bg: #4c5c96;
+    --color-primary-purple: #8e44ad;
+    --color-light-purple: #a29bfe;
+    --color-lantern-base: #6c5ce7;
+    --color-light-blue: #74b9ff;
+    --color-light-blue-rgb: 116, 185, 255;
+    --color-light-text: #d1d8e0;
+    --color-white: #ffffff;
+    --color-cloud-grey: #dfe6e9;
+    --color-shadow-dark-rgb: 30, 40, 50;
+    --color-vignette-dark-rgb: 44, 62, 80;
+}
+
+/* 🌌 Base Layout & Structure 🌌 */
 body {
     margin: 0;
     padding: 0;
-    background: linear-gradient(120deg, #2c3e50, #4c5c96, #8e44ad, #2c3e50);
+    background: linear-gradient(120deg, var(--color-dark-bg), var(--color-mid-bg), var(--color-primary-purple), var(--color-dark-bg));
     background-size: 800% 800%;
     animation: bgShift 40s ease infinite;
     font-family: 'Dancing Script', cursive;
@@ -15,7 +31,6 @@ body {
     position: relative;
 }
 
-/* ✨ Subtle Vignette for Depth ✨ */
 body::before {
     content: "";
     position: fixed;
@@ -23,28 +38,19 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    box-shadow: inset 0 0 80px rgba(44, 62, 80, 0.4),
-        inset 0 0 120px rgba(30, 40, 50, 0.3);
+    box-shadow: inset 0 0 80px rgba(var(--color-vignette-dark-rgb), 0.4),
+        inset 0 0 120px rgba(var(--color-shadow-dark-rgb), 0.3);
     pointer-events: none;
     z-index: 0;
 }
 
-/* 🌈 Background Gradient Animation */
 @keyframes bgShift {
     0% {
         background-position: 0% 50%;
     }
 
-    25% {
-        background-position: 50% 50%;
-    }
-
     50% {
         background-position: 100% 50%;
-    }
-
-    75% {
-        background-position: 50% 50%;
     }
 
     100% {
@@ -52,22 +58,22 @@ body::before {
     }
 }
 
+/* 🖱️ Tap Overlay 🖱️ */
 #tapOverlay {
     position: fixed;
     inset: 0;
-    background: rgba(44, 62, 80, 0.95);
+    background: rgba(var(--color-vignette-dark-rgb), 0.95);
     z-index: 999;
     display: flex;
     opacity: 1;
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    color: #a29bfe;
+    color: var(--color-light-purple);
     transition: opacity 0.5s ease;
     cursor: pointer;
 }
 
-/* ✨ Pulsing "Tap to Begin" Text ✨ */
 #tapOverlay p {
     animation: pulseTapText 2.5s infinite ease-in-out;
 }
@@ -89,19 +95,19 @@ body::before {
     pointer-events: none;
 }
 
-/* ✨ Text & Message */
+/* ✨ Main Message ✨ */
 #message {
     margin-top: 20px;
     font-size: 2.5rem;
-    color: #d1d8e0;
+    color: var(--color-light-text);
     opacity: 0;
     transform: scale(0.8);
     transition: opacity 0.6s ease, transform 0.6s ease;
     z-index: 12;
     text-shadow: 0 0 12px rgba(255, 255, 255, 0.7),
-        0 0 16px #74b9ff,
-        0 0 24px #a29bfe,
-        0 0 32px #8e44ad;
+        0 0 16px var(--color-light-blue),
+        0 0 24px var(--color-light-purple),
+        0 0 32px var(--color-primary-purple);
     animation: rainbowGlow 4s linear infinite;
 }
 
@@ -112,19 +118,52 @@ body::before {
 
 @keyframes rainbowGlow {
     0% {
-        text-shadow: 0 0 8px #74b9ff, 0 0 12px #fff, 0 0 16px #74b9ff, 0 0 24px #a29bfe, 0 0 32px #8e44ad;
+        text-shadow: 0 0 8px var(--color-light-blue), 0 0 12px var(--color-white), 0 0 16px var(--color-light-blue), 0 0 24px var(--color-light-purple), 0 0 32px var(--color-primary-purple);
     }
 
     50% {
-        text-shadow: 0 0 8px #a29bfe, 0 0 12px #fff, 0 0 16px #a29bfe, 0 0 24px #8e44ad, 0 0 32px #74b9ff;
+        text-shadow: 0 0 8px var(--color-light-purple), 0 0 12px var(--color-white), 0 0 16px var(--color-light-purple), 0 0 24px var(--color-primary-purple), 0 0 32px var(--color-light-blue);
     }
 
     100% {
-        text-shadow: 0 0 8px #74b9ff, 0 0 12px #fff, 0 0 16px #74b9ff, 0 0 24px #a29bfe, 0 0 32px #8e44ad;
+        text-shadow: 0 0 8px var(--color-light-blue), 0 0 12px var(--color-white), 0 0 16px var(--color-light-blue), 0 0 24px var(--color-light-purple), 0 0 32px var(--color-primary-purple);
     }
 }
 
-/* 🖼️ Character Image */
+/* 🖼️ Character Image 🖼️ */
+#character {
+    position: relative;
+    max-height: 80vh;
+    width: auto;
+    max-width: 90vw;
+    height: auto;
+    z-index: 3;
+    border-radius: 2rem;
+    box-shadow:
+        0 8px 16px rgba(0, 0, 0, 0.25),
+        0 0 20px rgba(162, 155, 254, 0.4),
+        0 0 40px rgba(var(--color-light-blue-rgb), 0.35),
+        0 0 60px rgba(142, 68, 173, 0.3);
+    opacity: 0;
+    transform: translateX(-100%) translateY(0px);
+    transition: box-shadow 0.4s ease-in-out;
+}
+
+#character.enter {
+    animation: slideInCharacter 1s ease-out forwards,
+        floatCharacter 6s ease-in-out 1s infinite;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    #character:hover {
+        box-shadow:
+            0 10px 22px rgba(0, 0, 0, 0.3),
+            0 0 30px rgba(162, 155, 254, 0.7),
+            0 0 55px rgba(var(--color-light-blue-rgb), 0.55),
+            0 0 80px rgba(142, 68, 173, 0.5);
+    }
+}
+
 @keyframes floatCharacter {
     0%, 100% {
         transform: translateY(0px) translateX(0%);
@@ -147,41 +186,7 @@ body::before {
     }
 }
 
-#character {
-    position: relative;
-    max-height: 80vh;
-    width: auto;
-    max-width: 90vw;
-    height: auto;
-    z-index: 3;
-    border-radius: 2rem;
-    box-shadow:
-        0 8px 16px rgba(0, 0, 0, 0.25),
-        0 0 20px rgba(162, 155, 254, 0.4),
-        0 0 40px rgba(116, 185, 255, 0.35),
-        0 0 60px rgba(142, 68, 173, 0.3);
-    opacity: 0;
-    transform: translateX(-100%) translateY(0px);
-    transition: box-shadow 0.4s ease-in-out;
-}
-
-#character.enter {
-    animation: slideInCharacter 1s ease-out forwards,
-        floatCharacter 6s ease-in-out 1s infinite;
-}
-
-/* ✨ Character Hover Effect ✨ */
-@media (hover: hover) and (pointer: fine) {
-    #character:hover {
-        box-shadow:
-            0 10px 22px rgba(0, 0, 0, 0.3),
-            0 0 30px rgba(162, 155, 254, 0.7),
-            0 0 55px rgba(116, 185, 255, 0.55),
-            0 0 80px rgba(142, 68, 173, 0.5);
-    }
-}
-
-/* 💙 Animated Hearts */
+/* 💙 Animated Hearts 💙 */
 .heart-container {
     position: absolute;
     animation: floatUp 3s ease-out forwards;
@@ -192,13 +197,13 @@ body::before {
 
 .heart {
     position: relative;
-    background-color: #a29bfe;
+    background-color: var(--color-light-purple);
     /* Default, JS overrides */
     width: 20px;
     height: 20px;
     transform: rotate(45deg);
     opacity: 0.9;
-    filter: drop-shadow(0 0 5px #74b9ff);
+    filter: drop-shadow(0 0 5px var(--color-light-blue));
 }
 
 .heart::before,
@@ -233,7 +238,7 @@ body::before {
     }
 }
 
-/* ☁️ Parallax Clouds */
+/* ☁️ Parallax Clouds ☁️ */
 #cloudLayer {
     position: absolute;
     top: 0;
@@ -258,47 +263,36 @@ body::before {
 
 .cloud.fluffy::before,
 .cloud.fluffy::after {
-    background: radial-gradient(circle at center, #ffffff 0%, #dfe6e9 65%, transparent 80%);
+    background: radial-gradient(circle at center, var(--color-white) 0%, var(--color-cloud-grey) 65%, transparent 80%);
     box-shadow: 0 0 40px rgba(223, 230, 233, 0.75);
 }
 
-/* CORRECTED AND COMBINED ANIMATION RULES */
 .cloud.small {
     width: 100px;
     height: 60px;
-    animation:
-        driftSmall 60s linear infinite,
-        floatCloud 6s ease-in-out infinite,
-        fluffyOpacityPulse 4s ease-in-out infinite;
+    animation: driftSmall 60s linear infinite, floatCloud 6s ease-in-out infinite, fluffyOpacityPulse 4s ease-in-out infinite;
 }
 
 .cloud.medium {
     width: 160px;
     height: 90px;
-    animation:
-        driftMedium 90s linear infinite,
-        floatCloud 7s ease-in-out infinite,
-        fluffyOpacityPulse 4s ease-in-out infinite;
+    animation: driftMedium 90s linear infinite, floatCloud 7s ease-in-out infinite, fluffyOpacityPulse 4s ease-in-out infinite;
 }
 
 .cloud.large {
     width: 220px;
     height: 120px;
-    animation:
-        driftLarge 120s linear infinite,
-        floatCloud 8s ease-in-out infinite,
-        fluffyOpacityPulse 4s ease-in-out infinite;
+    animation: driftLarge 120s linear infinite, floatCloud 8s ease-in-out infinite, fluffyOpacityPulse 4s ease-in-out infinite;
 }
 
 .cloud::before, .cloud::after {
     content: "";
     position: absolute;
-    background: radial-gradient(circle at center, #ffffff 0%, #dfe6e9 70%, transparent 80%);
+    background: radial-gradient(circle at center, var(--color-white) 0%, var(--color-cloud-grey) 70%, transparent 80%);
     border-radius: 50%;
     box-shadow: 0 0 40px rgba(223, 230, 233, 0.6);
 }
 
-/* Cloud Animations */
 @keyframes floatCloud {
     0%, 100% {
         transform: translateY(0px);
@@ -391,14 +385,13 @@ body::before {
     }
 }
 
-/* ✨ Falling Elements & Gusts */
+/* 🎊 Falling Elements & Gusts 🎊 */
 .petal, .wind-petal {
     position: absolute;
-    background: #a29bfe;
-    /* New color */
+    background: var(--color-light-purple);
     border-radius: 50% 50% 50% 0;
     transform: rotate(45deg);
-    filter: drop-shadow(0 0 5px rgba(116, 185, 255, 0.7));
+    filter: drop-shadow(0 0 5px rgba(var(--color-light-blue-rgb), 0.7));
 }
 
 .petal {
@@ -437,7 +430,7 @@ body::before {
     width: 18px;
     height: 18px;
     animation: gust 12s ease-in-out infinite;
-    filter: drop-shadow(0 0 5px rgba(116, 185, 255, 0.5));
+    filter: drop-shadow(0 0 5px rgba(var(--color-light-blue-rgb), 0.5));
 }
 
 @keyframes gust {
@@ -461,14 +454,14 @@ body::before {
     }
 }
 
-/* 🏮 Floating Lanterns (kept as they fit the magical theme) */
+/* 🏮 Floating Lanterns 🏮 */
 .lantern {
     position: absolute;
     width: 40px;
     height: 60px;
-    background: linear-gradient(to top, #6c5ce7, #a29bfe);
+    background: linear-gradient(to top, var(--color-lantern-base), var(--color-light-purple));
     border-radius: 10px;
-    box-shadow: 0 0 20px #a29bfe;
+    box-shadow: 0 0 20px var(--color-light-purple);
     animation: floatLantern 10s linear infinite;
     z-index: 4;
 }
@@ -485,18 +478,18 @@ body::before {
     }
 }
 
-/* 💬 Compliments */
+/* 💬 Floating Compliments 💬 */
 .compliment {
     position: absolute;
     font-size: 1.8rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--color-white);
     text-shadow:
-        0px 0px 1px rgba(30, 40, 50, 0.5),
-        0px 0px 3px rgba(30, 40, 50, 0.4),
-        0 0 8px #8e44ad,
-        0 0 15px #a29bfe,
-        0 0 25px #74b9ff;
+        0px 0px 1px rgba(var(--color-shadow-dark-rgb), 0.5),
+        0px 0px 3px rgba(var(--color-shadow-dark-rgb), 0.4),
+        0 0 8px var(--color-primary-purple),
+        0 0 15px var(--color-light-purple),
+        0 0 25px var(--color-light-blue);
     opacity: 0;
     animation: floatCompliment 10s ease-out forwards;
     z-index: 4;
@@ -524,22 +517,22 @@ body::before {
     }
 }
 
-/* ✨ Cursor Sparkles */
+/* ✨ Cursors & Effects ✨ */
 .sparkle {
     position: fixed;
     width: 8px;
     height: 8px;
-    background: #dfe6e9;
+    background: var(--color-cloud-grey);
     border-radius: 50%;
     pointer-events: none;
     opacity: 1;
     animation: sparkleFade 0.6s forwards;
     z-index: 999;
     box-shadow:
-        0 0 4px #a29bfe,
-        0 0 6px #74b9ff,
-        0 0 8px #a29bfe,
-        0 0 10px #74b9ff;
+        0 0 4px var(--color-light-purple),
+        0 0 6px var(--color-light-blue),
+        0 0 8px var(--color-light-purple),
+        0 0 10px var(--color-light-blue);
     will-change: transform, opacity, box-shadow;
 }
 
@@ -547,17 +540,16 @@ body::before {
     0% {
         transform: scale(1);
         opacity: 1;
-        box-shadow: 0 0 4px #a29bfe, 0 0 6px #74b9ff, 0 0 8px #a29bfe, 0 0 10px #74b9ff;
+        box-shadow: 0 0 4px var(--color-light-purple), 0 0 6px var(--color-light-blue), 0 0 8px var(--color-light-purple), 0 0 10px var(--color-light-blue);
     }
 
     100% {
         transform: scale(1.8);
         opacity: 0;
-        box-shadow: 0 0 6px rgba(162, 155, 254, 0.5), 0 0 8px rgba(116, 185, 255, 0.4), 0 0 10px rgba(162, 155, 254, 0.3), 0 0 12px rgba(116, 185, 255, 0.2);
+        box-shadow: 0 0 6px rgba(162, 155, 254, 0.5), 0 0 8px rgba(var(--color-light-blue-rgb), 0.4), 0 0 10px rgba(162, 155, 254, 0.3), 0 0 12px rgba(var(--color-light-blue-rgb), 0.2);
     }
 }
 
-/* 🌫️ Magic Dust Trail */
 .dust {
     position: absolute;
     background: radial-gradient(circle, rgba(223, 230, 233, 0.6) 0%, rgba(162, 155, 254, 0.4) 60%, transparent 100%);
@@ -588,11 +580,10 @@ body::before {
     }
 }
 
-/* 💧 Click Ripple Effect */
 .ripple {
     position: fixed;
     border-radius: 50%;
-    background: rgba(116, 185, 255, 0.4);
+    background: rgba(var(--color-light-blue-rgb), 0.4);
     transform: scale(0);
     animation: rippleEffect 0.7s ease-out forwards;
     pointer-events: none;
@@ -617,7 +608,7 @@ body::before {
     }
 }
 
-/* 📱 Responsive Adjustments */
+/* 📱 Responsive Adjustments 📱 */
 @media (max-width: 768px) {
     body {
         justify-content: flex-start;
@@ -629,10 +620,6 @@ body::before {
     #tapOverlay {
         font-size: 1.6rem;
         padding: 1.2rem 1.5rem;
-    }
-
-    #tapOverlay p {
-        animation-name: pulseTapText;
     }
 
     #message {
@@ -648,8 +635,7 @@ body::before {
     }
 
     #character:hover {
-        /* Revert hover on touch devices */
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25), 0 0 20px rgba(162, 155, 254, 0.4), 0 0 40px rgba(116, 185, 255, 0.35), 0 0 60px rgba(142, 68, 173, 0.3);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25), 0 0 20px rgba(162, 155, 254, 0.4), 0 0 40px rgba(var(--color-light-blue-rgb), 0.35), 0 0 60px rgba(142, 68, 173, 0.3);
     }
 
     .compliment {
@@ -662,10 +648,6 @@ body::before {
     .sparkle {
         width: 10px;
         height: 10px;
-    }
-
-    .cloud, .petal, .lantern, .wind-petal, .heart-container {
-        animation-timing-function: ease-in-out;
     }
 
     #cloudLayer, #petalLayer, #heartLayer, #dustLayer, #sparkleLayer {
@@ -718,5 +700,15 @@ body::before {
 
     .petal, .wind-petal {
         transform: scale(0.8) rotate(45deg);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
     }
 }
