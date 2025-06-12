@@ -186,7 +186,6 @@ body::before {
     }
 }
 
-/* This is the bounce animation that replaced the jQuery .animate() */
 @keyframes bounce {
     0%, 100% {
         transform: translateY(0);
@@ -209,7 +208,6 @@ body::before {
 .heart {
     position: relative;
     background-color: var(--color-light-purple);
-    /* Default, JS overrides */
     width: 20px;
     height: 20px;
     transform: rotate(45deg);
@@ -281,28 +279,19 @@ body::before {
 .cloud.small {
     width: 100px;
     height: 60px;
-    animation:
-        driftSmall 60s linear infinite,
-        floatCloud 6s ease-in-out infinite,
-        fluffyOpacityPulse 4s ease-in-out infinite;
+    animation: driftSmall 60s linear infinite, floatCloud 6s ease-in-out infinite, fluffyOpacityPulse 4s ease-in-out infinite;
 }
 
 .cloud.medium {
     width: 160px;
     height: 90px;
-    animation:
-        driftMedium 90s linear infinite,
-        floatCloud 7s ease-in-out infinite,
-        fluffyOpacityPulse 4s ease-in-out infinite;
+    animation: driftMedium 90s linear infinite, floatCloud 7s ease-in-out infinite, fluffyOpacityPulse 4s ease-in-out infinite;
 }
 
 .cloud.large {
     width: 220px;
     height: 120px;
-    animation:
-        driftLarge 120s linear infinite,
-        floatCloud 8s ease-in-out infinite,
-        fluffyOpacityPulse 4s ease-in-out infinite;
+    animation: driftLarge 120s linear infinite, floatCloud 8s ease-in-out infinite, fluffyOpacityPulse 4s ease-in-out infinite;
 }
 
 .cloud::before, .cloud::after {
@@ -501,6 +490,7 @@ body::before {
 /* 💬 Floating Compliments 💬 */
 .compliment {
     position: absolute;
+    display: flex;
     font-size: 1.8rem;
     font-weight: 600;
     color: var(--color-white);
@@ -514,17 +504,14 @@ body::before {
     animation: floatCompliment 10s ease-out forwards;
     z-index: 4;
     cursor: pointer;
-    /* Allows clicks */
-    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-    /* For the new fade effect */
+    padding: 10px 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
 }
 
-/* This new class will be added by JS on click */
-.compliment.fade-out {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.8);
+.compliment.dissipate span {
+    animation: dissipate 0.6s ease-out forwards;
 }
-
 
 @keyframes floatCompliment {
     0% {
@@ -546,6 +533,19 @@ body::before {
         opacity: 0;
     }
 }
+
+@keyframes dissipate {
+    0% {
+        opacity: 1;
+        transform: translateY(0) rotate(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-80px) rotate(var(--r));
+    }
+}
+
 
 /* ✨ Cursors & Effects ✨ */
 .sparkle {

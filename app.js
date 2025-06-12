@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    //  Main Animation Kickoff
+    // Main Animation Kickoff 
     const startCardAnimations = () => {
         character.classList.add('enter');
         character.addEventListener('animationend', (e) => {
@@ -72,17 +72,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 60);
 
                 character.style.animation += ', bounce 0.25s ease-in-out';
-
                 message.classList.add('show');
                 createFloatingHearts();
             }
         }, { once: true });
 
         const numClouds = isMobile ? 3 : 5;
-        const cloudSizes = ['small', 'medium', 'large'];
         for (let i = 0; i < numClouds; i++) {
             const cloud = document.createElement('div');
-            cloud.classList.add('cloud', 'fluffy', cloudSizes[Math.floor(Math.random() * cloudSizes.length)]);
+            cloud.classList.add('cloud', 'fluffy', ['small', 'medium', 'large'][Math.floor(Math.random() * 3)]);
             cloud.style.top = `${Math.random() * 40 + 5}%`;
             cloud.style.opacity = '0';
             cloud.style.transition = 'opacity 1.5s';
@@ -108,7 +106,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const msg = compliments[Math.floor(Math.random() * compliments.length)];
             const comp = document.createElement('div');
             comp.className = 'compliment';
-            comp.innerHTML = msg; // Use .innerHTML to render emojis
+
+            msg.split('').forEach(char => {
+                const span = document.createElement('span');
+                // If the character is a space, use a non-breaking space
+                span.innerHTML = char === ' ' ? '&nbsp;' : char;
+                comp.append(span);
+            });
+
             const floatDuration = isMobile ? (Math.random() * 3 + 10) + 's' : (Math.random() * 2 + 8) + 's';
             comp.style.left = `${Math.random() * 70 + 15}vw`;
             comp.style.bottom = isMobile ? '12vh' : '8vh';
@@ -138,14 +143,25 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => ripple.remove(), 700);
         });
 
-        // Listen for clicks on the floating compliments ✨
+        // Listen for clicks on the floating compliments to make them dissipate ✨
         petalLayer.addEventListener('click', (e) => {
-            if (e.target.classList.contains('compliment')) {
-                const clickedCompliment = e.target;
-                clickedCompliment.classList.add('fade-out');
-                clickedCompliment.addEventListener('transitionend', () => {
+            // Find the parent .compliment element that was clicked
+            const clickedCompliment = e.target.closest('.compliment');
+
+            if (clickedCompliment && !clickedCompliment.classList.contains('dissipate')) {
+                // For each letter span, apply a random rotation for the animation
+                clickedCompliment.querySelectorAll('span').forEach(span => {
+                    const randomRotation = (Math.random() - 0.5) * 360; // Random rotation from -180 to 180
+                    span.style.setProperty('--r', `${randomRotation}deg`);
+                });
+
+                // Add the class to trigger the dissipation animation
+                clickedCompliment.classList.add('dissipate');
+
+                // Remove the entire compliment element after the animation finishes
+                setTimeout(() => {
                     clickedCompliment.remove();
-                }, { once: true });
+                }, 600); // Must be same as animation duration in CSS
             }
         });
 
